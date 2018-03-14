@@ -114,7 +114,7 @@ public class Nimsys {
 
     //ask the player whether to play again
     public boolean playAgain(){
-        System.out.println("\nDo you want to play again (Y/N):");
+        System.out.print("\nDo you want to play again (Y/N):");
         return chooseYN();
     }
 
