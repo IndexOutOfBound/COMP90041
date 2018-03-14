@@ -1,11 +1,12 @@
 
-// A class for NimGame
+// A class for Nimsys
 // @Author weikai Zeng
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
-public class NimGame {
+public class Nimsys {
 
     private int numberOfStone = 0;
 
@@ -15,7 +16,9 @@ public class NimGame {
 
     private List<NimPlayer> players = new LinkedList<>();
 
-    private int numOfPlayers = 2;
+    private static final int NUM_OF_PLAYER = 2;
+
+    private static final Scanner kb = new Scanner(System.in);
 
     private int indexOfCurrentPlayer = 0;//record the index of player of every turn
 
@@ -23,7 +26,7 @@ public class NimGame {
         return numberOfStone;
     }
 
-    public NimGame setNumberOfStone(int numberOfStone) {
+    public Nimsys setNumberOfStone(int numberOfStone) {
         this.numberOfStone = numberOfStone;
         return this;
     }
@@ -32,7 +35,7 @@ public class NimGame {
         return gameOver;
     }
 
-    public NimGame setGameOver(boolean gameOver) {
+    public Nimsys setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
         return this;
     }
@@ -41,24 +44,24 @@ public class NimGame {
         return upBound;
     }
 
-    public NimGame setUpBound(int upBound) {
+    public Nimsys setUpBound(int upBound) {
         this.upBound = upBound;
         return this;
     }
 
     //add the player into player list
-    public NimGame addPlayers(NimPlayer nimPlayer){
+    public Nimsys addPlayers(NimPlayer nimPlayer){
         this.players.add(nimPlayer);
         return this;
     }
 
     //initialize the game
     //add the player into
-    public NimGame initialize(){
+    public Nimsys initialize(){
         System.out.println("Welcome to Nim");
-        for(int i = 1; i <= numOfPlayers; i++) {
+        for(int i = 1; i <= NUM_OF_PLAYER; i++) {
             System.out.println("\nPlease enter Player " + i + "'s name:");
-            String name = DataInput.inputString();
+            String name = inputString();
             NimPlayer nimPlayer1 = new NimPlayer().setName(name);
             this.addPlayers(nimPlayer1);
         }
@@ -67,12 +70,12 @@ public class NimGame {
     }
 
     //set the number of stone and upper bound
-    public NimGame start(){
+    public Nimsys start(){
         System.out.println("\nPlease enter upper bound of stone removal:");
-        Integer upperBound = DataInput.inputInteger();
+        Integer upperBound = inputInteger();
 
         System.out.println("\nPlease enter initial number of stones:");
-        Integer numOfStone = DataInput.inputInteger();
+        Integer numOfStone = inputInteger();
 
         this.setNumberOfStone(numOfStone)
             .setUpBound(upperBound);
@@ -81,7 +84,7 @@ public class NimGame {
     }
 
     //play the game
-    public NimGame removeStone(){
+    public Nimsys removeStone(){
         System.out.println( "\n"+numberOfStone + " stones left:" + displayStone());
         NimPlayer currentPlayer = players.get(indexOfCurrentPlayer);
         currentPlayer.removeStone(this);
@@ -96,7 +99,7 @@ public class NimGame {
 
     //get the index of next player
     public int findNextPlayer(){
-        if(indexOfCurrentPlayer == numOfPlayers - 1)
+        if(indexOfCurrentPlayer == NUM_OF_PLAYER - 1)
             //when the index is point to the last one in player list
             return 0;
         return indexOfCurrentPlayer+1;
@@ -112,7 +115,7 @@ public class NimGame {
     //ask the player whether to play again
     public boolean playAgain(){
         System.out.println("\nDo you want to play again (Y/N):");
-        return DataInput.chooseYN();
+        return chooseYN();
     }
 
     //display stone as *
@@ -121,6 +124,69 @@ public class NimGame {
         for(int i = 0; i< numberOfStone; i++)
             stones.append(" *");
         return stones.toString();
+    }
+
+    //main function used to run program
+    public static void main(String[] args) {
+        Nimsys nimsys = new Nimsys();
+        nimsys.initialize();
+        boolean playAgain = true;
+        while(playAgain){
+            nimsys.start();
+            while(!nimsys.isGameOver())
+                nimsys.removeStone();
+            nimsys.over();
+            playAgain = nimsys.playAgain();
+        }
+    }
+
+
+    //method used to input string
+    public static String inputString() {
+        return kb.nextLine();
+    }
+
+    //method used to input a integer in a specific range
+    public static int inputIntegerRange(int lower, int upper) {
+        int n = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            n = inputInteger();
+            if (n >= lower && n <= upper) {
+                validInput = true;
+            } else {
+                System.out.println("Not from " + lower + " to " + upper);
+            }
+        }
+        return n;
+    }
+
+    //method used to input a integer
+    public static int inputInteger() {
+        int i = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            String s = inputString();
+            try {
+                i = Integer.parseInt(s);
+                validInput = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid integer");
+            }
+        }
+        return i;
+    }
+
+    //method used to choose Y/N
+    public static boolean chooseYN() {
+        while (true) {
+            String s = inputString();
+            if (s.equalsIgnoreCase("Y"))
+                return true;
+            if (s.equalsIgnoreCase("N"))
+                return false;
+            System.out.print("Not a valid input, please input one of Y/N");
+        }
     }
 
 
