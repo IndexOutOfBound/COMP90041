@@ -102,6 +102,7 @@ public class Nimsys {
         if(indexOfCurrentPlayer == NUM_OF_PLAYER - 1)
             //when the index is point to the last one in player list
             return 0;
+
         return indexOfCurrentPlayer+1;
     }
 
@@ -141,8 +142,10 @@ public class Nimsys {
         boolean playAgain = true;
         while(playAgain){
             nimsys.start();
+
             while(!nimsys.isGameOver())
                 nimsys.removeStone();
+
             nimsys.over();
             playAgain = nimsys.playAgain();
         }
