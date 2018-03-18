@@ -12,8 +12,6 @@ public class Nimsys {
 
     private int upBound = 0;
 
-    private boolean gameOver = false;
-
     private List<NimPlayer> players = new LinkedList<>();
 
     private static final int NUM_OF_PLAYER = 2;
@@ -31,8 +29,12 @@ public class Nimsys {
         return this;
     }
 
+    /**
+     * test whether the game is over
+     * @return a boolean value
+     */
     public boolean isGameOver() {
-        return gameOver;
+        return numberOfStone == 0;
     }
 
     public int getUpBound() {
@@ -86,10 +88,8 @@ public class Nimsys {
         NimPlayer currentPlayer = players.get(indexOfCurrentPlayer);
         currentPlayer.removeStone(this);
 
-        if(numberOfStone != 0)//test whether the game is over
+        if(!isGameOver())//if game is not over, find the next player
             indexOfCurrentPlayer = findNextPlayer();
-        else
-            gameOver = true;
 
         return this;
     }
@@ -111,7 +111,6 @@ public class Nimsys {
      */
     public void over(){
         System.out.println( "\nGame Over\n" + players.get(findNextPlayer()).getName() + " wins!");
-        gameOver = false;
         indexOfCurrentPlayer = 0;
     }
 
