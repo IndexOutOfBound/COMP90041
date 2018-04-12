@@ -2,154 +2,122 @@
 // A class for Nimsys
 // @Author weikai Zeng
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
+
 
 public class Nimsys {
 
-    private int numberOfStone = 0;
 
-    private int upBound = 0;
-
-    private List<NimPlayer> players = new LinkedList<>();
-
-    private static final int NUM_OF_PLAYER = 2;
+    private List<NimPlayer> players = new ArrayList<>();
 
     private static final Scanner kb = new Scanner(System.in);
 
-    private int indexOfCurrentPlayer = 0;//record the index of player of every turn
 
-    public int getNumberOfStone() {
-        return numberOfStone;
-    }
+    public void shiel(String input){
+        String[] commandAndParams = input.split(",");
+        while(true){
+            String command = "";
+            String params = "";
+            if(input.length() == 1)
+                command = commandAndParams[0];
 
-    public Nimsys setNumberOfStone(int numberOfStone) {
-        this.numberOfStone = numberOfStone;
-        return this;
-    }
-
-    /**
-     * test whether the game is over
-     * @return a boolean value
-     */
-    public boolean isGameOver() {
-        return numberOfStone == 0;
-    }
-
-    public int getUpBound() {
-        return upBound;
-    }
-
-    public Nimsys setUpBound(int upBound) {
-        this.upBound = upBound;
-        return this;
-    }
-
-    /**
-     * create the players and set their name
-     * @return
-     */
-    public Nimsys initializePlayer(){
-        System.out.println("Welcome to Nim");
-        for(int i = 1; i <= NUM_OF_PLAYER; i++) {
-            System.out.println("\nPlease enter Player " + i + "'s name:");
-            String name = inputString();
-            NimPlayer nimPlayer1 = new NimPlayer().setName(name);
-            this.players.add(nimPlayer1);
-        }
-
-        return this;
-    }
-
-    /**
-     * start the game and set the upper bound and the number of stones
-     * @return the new game
-     */
-    public Nimsys start(){
-        System.out.println("\nPlease enter upper bound of stone removal:");
-        Integer upperBound = inputInteger();
-
-        System.out.println("\nPlease enter initial number of stones:");
-        Integer numOfStone = inputInteger();
-
-        this.setNumberOfStone(numOfStone)
-            .setUpBound(upperBound);
-
-        return this;
-    }
-
-    /**
-     * let player remove the stone
-     * @return
-     */
-    public Nimsys removeStone(){
-        displayRemainderStone();
-        NimPlayer currentPlayer = players.get(indexOfCurrentPlayer);
-        currentPlayer.removeStone(this);
-
-        if(!isGameOver())//if game is not over, find the next player
-            indexOfCurrentPlayer = findNextPlayer();
-
-        return this;
-    }
-
-    /**
-     *
-     * @return the index of next player
-     */
-    public int findNextPlayer(){
-        if(indexOfCurrentPlayer == NUM_OF_PLAYER - 1)
-            //when the index is point to the last one in player list
-            return 0;
-
-        return indexOfCurrentPlayer+1;
-    }
-
-    /**
-     * over the game and print the winner
-     */
-    public void over(){
-        System.out.println( "\nGame Over\n" + players.get(findNextPlayer()).getName() + " wins!");
-        indexOfCurrentPlayer = 0;
-    }
-
-    /**
-     * ask player whether they play again
-     * @return their choice
-     */
-    public boolean playAgain(){
-        System.out.print("\nDo you want to play again (Y/N):");
-        return chooseYN();
-    }
-
-    /**
-     * display the remainder stones as "*"
-     */
-    private void displayRemainderStone(){
-        StringBuilder stones = new StringBuilder();
-        for(int i = 0; i< numberOfStone; i++)
-            stones.append(" *");
-
-        System.out.println( "\n"+numberOfStone + " stones left:" + stones.toString());
-    }
-
-    //main function used to run program
-    public static void main(String[] args) {
-        Nimsys nimsys = new Nimsys();
-        nimsys.initializePlayer();
-        boolean playAgain = true;
-        while(playAgain){
-            nimsys.start();
-
-            while(!nimsys.isGameOver())
-                nimsys.removeStone();
-
-            nimsys.over();
-            playAgain = nimsys.playAgain();
+            if(input.length() == 2){
+                command = commandAndParams[0];
+                params = commandAndParams[1];
+            }
+            runCommand(command, params);
         }
     }
 
+    private void runCommand(String command, String params){
+        if(command.compareTo("startGame") == 0)
+            startGameCommand(params);
+
+        if(command.compareTo("addPlayer") == 0)
+            addUser(params);
+
+        if(command.compareTo("editPlayer") == 0)
+            editPlayer(params);
+
+        if(command.compareTo("resetstats") == 0)
+            resetstats(params);
+
+    }
+
+
+    public void addUser(String params){
+//         TODO: 12/4/18
+    }
+
+    public void editPlayer(String params){
+        //todo
+    }
+
+    public void resetstats(String params){
+        //todo
+    }
+
+
+    /**
+     * start the gameCommand
+     * do some pre-process to the param
+     * @param param
+     */
+    public void startGameCommand(String param) {
+        String[] params = param.split(",");
+        int[] numbers = new int[2];
+        boolean startGame = true;
+
+        if(params.length == 4) {
+            //test did the first two parameter is integer
+            for (int i = 0; i < 2; i++) {
+                try {
+                    numbers[i] = Integer.parseInt(params[0]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Not a valid integer");
+                    startGame = true;
+                }
+            }
+
+            NimPlayer[] players = new NimPlayer[2];
+            //test did the player exist
+            for (int j = 2; j < 4; j++) {
+                players[j - 2] = findPlayerByUserName(params[j]);
+                if (!Optional.ofNullable(players[j - 2]).isPresent()) {
+                    System.out.println("One of the players does not exist.");
+                    startGame = true;
+                }
+            }
+
+            if (startGame)
+                startGame(numbers[0], numbers[1], players);
+        }
+    }
+
+    /**
+     * find the user by their username
+     * @param userName
+     * @return the NimPlayer
+     */
+    private NimPlayer findPlayerByUserName(String userName){
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getUserName().compareTo(userName) == 0)
+                return players.get(i);
+        }
+        return null;
+    }
+
+    /**
+     * run the game
+     * @param numberOfStone
+     * @param upBound
+     * @param players
+     */
+    public void startGame(int numberOfStone, int upBound, NimPlayer[] players){
+        NimGame nimGame = new NimGame(numberOfStone, upBound, players);
+        nimGame.startGame();
+    }
 
     /**
      * let user input String
@@ -173,7 +141,7 @@ public class Nimsys {
             if (n >= lower && n <= upper) {
                 validInput = true;
             } else {
-                System.out.println("Not from " + lower + " to " + upper);
+                System.out.println("Invalid move. You must remove between "+lower+" and "+ upper+" stones.");
             }
         }
         return n;
@@ -212,4 +180,7 @@ public class Nimsys {
             System.out.print("Not a valid input, please input one of Y/N");
         }
     }
+
 }
+
+
