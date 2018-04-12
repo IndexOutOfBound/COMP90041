@@ -2,7 +2,9 @@
 // A class for NimPlayer
 // @Author weikai Zeng
 
-public class NimPlayer {
+import java.util.Comparator;
+
+public class NimPlayer implements Comparator{
 
     private String UserName;
 
@@ -73,5 +75,25 @@ public class NimPlayer {
 
     public void addOneGame(){
         this.numberOfGames++;
+    }
+
+    @Override
+    public int compare(Object ob1, Object ob2) {
+        if(ob1 instanceof NimPlayer && ob2 instanceof NimPlayer) {
+            NimPlayer player1 = (NimPlayer)ob1;
+            NimPlayer player2 = (NimPlayer)ob2;
+            int player1WinRate =(int)(((double)player1.winGames/(double)player1.numberOfGames)*100);
+            int player2WinRate =(int)(((double)player2.winGames/(double)player2.numberOfGames)*100);
+            if(player1WinRate > player2WinRate)
+                return 1;
+
+            if(player1WinRate == player2WinRate) {
+                if( player1.getFirstName())
+            }
+
+            return -1;
+        }
+
+        return 0;
     }
 }
