@@ -15,13 +15,19 @@ public class NimPlayer {
         return this;
     }
 
-    //remove the stone
-    public void removeStone(NimGame nimGame){
-        Integer upbound = nimGame.getUpBound();
-        Integer numOfStone = nimGame.getNumberOfStone();
+    /**
+     * ask player to remove stone
+     * @param nimsys the running nim game
+     */
+    public void removeStone(Nimsys nimsys){
+        Integer upbound = nimsys.getUpBound();
+        Integer numOfStone = nimsys.getNumberOfStone();
         System.out.println(name+"'s turn - remove how many?");
-        Integer removedStone = DataInput.inputIntegerRange(1, upbound < numOfStone ? upbound:numOfStone);
-
-        nimGame.setNumberOfStone(numOfStone - removedStone);
+        Integer removedStone = Nimsys.inputIntegerRange(1, upbound < numOfStone ? upbound:numOfStone);
+        //if the upbound is less than the numOfStone
+        //      set the upbound as upper bound of input
+        //else
+        //      set the numOfStone as upper bound
+        nimsys.setNumberOfStone(numOfStone - removedStone);
     }
 }
