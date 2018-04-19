@@ -2,26 +2,40 @@
 // A class for NimPlayer
 // @Author weikai Zeng
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
-public class NimPlayer implements Comparator{
+public class NimPlayer{
 
-    private String UserName;
+    private String userName;
 
     private String firstName;
 
     private String lastName;
 
-    private int numberOfGames;
+    private BigDecimal numberOfGames;
 
-    private int winGames;
+    private BigDecimal winGames;
+
+    public static final BigDecimal ONE = new BigDecimal("1");
+
+
+
+    public NimPlayer(String userName, String lastName, String firstName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.winGames = new BigDecimal("0");
+        this.numberOfGames = new BigDecimal("0");
+    }
+
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -37,24 +51,37 @@ public class NimPlayer implements Comparator{
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getNumberOfGames() {
+    public BigDecimal getNumberOfGames() {
         return numberOfGames;
     }
 
-    public void setNumberOfGames(int numberOfGames) {
+    public void setNumberOfGames(BigDecimal numberOfGames) {
         this.numberOfGames = numberOfGames;
     }
 
-    public int getWinGames() {
+    public BigDecimal getWinGames() {
         return winGames;
     }
 
-    public void setWinGames(int winGames) {
+    public NimPlayer setWinGames(BigDecimal winGames) {
         this.winGames = winGames;
+        return this;
+    }
+
+    public NimPlayer setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public String toString(){
+        return this.userName+","+this.firstName+","+this.lastName+
+                ","+this.numberOfGames+" games "+this.winGames+" wins";
+    }
+
+    public String toRankString(){
+        BigDecimal winRate = this.winGames.divide(this.numberOfGames).setScale(2);
+        return String.format("%-5s| %02d games | %s %s", winRate,
+                this.numberOfGames, this.firstName, this.lastName);
     }
 
     public void removeStone(NimGame nimGame){
@@ -70,30 +97,12 @@ public class NimPlayer implements Comparator{
     }
 
     public void addOneWin(){
-        this.winGames++;
+        this.winGames.add(ONE);
     }
 
     public void addOneGame(){
-        this.numberOfGames++;
+        this.numberOfGames.add(ONE);
     }
 
-    @Override
-    public int compare(Object ob1, Object ob2) {
-        if(ob1 instanceof NimPlayer && ob2 instanceof NimPlayer) {
-            NimPlayer player1 = (NimPlayer)ob1;
-            NimPlayer player2 = (NimPlayer)ob2;
-            int player1WinRate =(int)(((double)player1.winGames/(double)player1.numberOfGames)*100);
-            int player2WinRate =(int)(((double)player2.winGames/(double)player2.numberOfGames)*100);
-            if(player1WinRate > player2WinRate)
-                return 1;
 
-            if(player1WinRate == player2WinRate) {
-                if( player1.getFirstName())
-            }
-
-            return -1;
-        }
-
-        return 0;
-    }
 }
