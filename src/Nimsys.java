@@ -11,11 +11,16 @@ public class Nimsys {
 
     private List<NimPlayer> players = new ArrayList<>();
 
+    private static HashMap<String, Command> command;
+
     private static final Scanner kb = new Scanner(System.in);
 
+    static{
+
+    }
 
     public void shiel(String input){
-        String[] commandAndParams = input.split(",");
+        String[] commandAndParams = input.split(" ");
         while(true){
             String command = "";
             String params = "";
