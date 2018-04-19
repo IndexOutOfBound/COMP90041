@@ -17,7 +17,7 @@ public class NimPlayer{
 
     private BigDecimal winGames;
 
-    public static final BigDecimal ONE = new BigDecimal("1");
+    private static final BigDecimal ONE = new BigDecimal("1");
 
 
 

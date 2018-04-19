@@ -21,7 +21,19 @@ public class PlayerList {
         }
     }
 
-    public void removePlayer(){
+    public void removePlayer(String userName){
+        int index = getTheIndexOfPlayer(userName);
+        if(index == -1)
+            System.out.println("This player not exist");
+        else {
+            for(int i = index; i<=indexOfEnd; i++)
+                players[i] = players[i+1];
+            indexOfEnd--;
+        }
+
+    }
+
+    public void rankPlayer(){
 
     }
 
@@ -30,14 +42,6 @@ public class PlayerList {
             return false;
         else
             return true;
-    }
-
-    public NimPlayer getPlayerByUsername(String userName){
-        int index = getTheIndexOfPlayer(userName);
-        if(index == -1)
-            return null;
-
-        return players[index];
     }
 
     /**

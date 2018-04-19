@@ -4,7 +4,7 @@ public class StartGameCommand implements Command{
 
 
     @Override
-    public void excute(String param, PlayerList playerList) {
+    public void excute(PlayerList playerList, String param) {
 
     }
 

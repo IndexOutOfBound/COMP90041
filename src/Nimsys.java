@@ -11,57 +11,27 @@ public class Nimsys {
 
     private List<NimPlayer> players = new ArrayList<>();
 
-    private static HashMap<String, Command> command;
+    private static HashMap<String, Command> commands;
+
+    private PlayerList playerList;
 
     private static final Scanner kb = new Scanner(System.in);
 
     static{
-
+        commands.put("startgame", new StartGameCommand());
     }
 
     public void shiel(String input){
         String[] commandAndParams = input.split(" ");
         while(true){
-            String command = "";
-            String params = "";
             if(input.length() == 1)
-                command = commandAndParams[0];
+                commands.get(commandAndParams[0]).excute(playerList);
 
-            if(input.length() == 2){
-                command = commandAndParams[0];
-                params = commandAndParams[1];
-            }
-            runCommand(command, params);
+            if(input.length() == 2)
+                commands.get(commandAndParams[0]).excute(playerList, commandAndParams[1]);
         }
     }
 
-    private void runCommand(String command, String params){
-        if(command.compareTo("startGame") == 0)
-            startGameCommand(params);
-
-        if(command.compareTo("addPlayer") == 0)
-            addUser(params);
-
-        if(command.compareTo("editPlayer") == 0)
-            editPlayer(params);
-
-        if(command.compareTo("resetstats") == 0)
-            resetstats(params);
-
-    }
-
-
-    public void addUser(String params){
-//         TODO: 12/4/18
-    }
-
-    public void editPlayer(String params){
-        //todo
-    }
-
-    public void resetstats(String params){
-        //todo
-    }
 
 
     /**
