@@ -21,6 +21,10 @@ public class PlayerList {
         }
     }
 
+    public void removePlayer(){
+
+    }
+
     public boolean userExist(String userName){
         if(getTheIndexOfPlayer(userName) == -1)
             return false;
