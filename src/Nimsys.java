@@ -2,6 +2,7 @@
 // A class for Nimsys
 // @Author weikai Zeng
 
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -13,50 +14,259 @@ public class Nimsys {
 
     private static final Scanner kb = new Scanner(System.in);
 
+    private static final BigDecimal ZERO = new BigDecimal("0");
 
-    public void shiel(String input){
-        String[] commandAndParams = input.split(",");
+    private static final Comparator<NimPlayer> comparator = (player1, player2) -> {
+        BigDecimal player1WinRate = player1.getWinGames().divide(player1.getNumberOfGames()).setScale(2);
+        BigDecimal player2WinRate = player2.getWinGames().divide(player1.getNumberOfGames()).setScale(2);
+        String player1FullName = player1.getFirstName() + player1.getLastName();
+        String player2FullName = player2.getFirstName() + player2.getLastName();
+
+        if (player1WinRate.compareTo(player2WinRate) > 0) {
+            return 1;
+        } else if (player1WinRate.compareTo(player2WinRate)==0) {
+            if (player1FullName.compareTo(player2FullName) > 0)
+                return 1;
+            else if(player1FullName.compareTo(player2FullName) == 0)
+                return 0;
+            else
+                return -1;
+        } else {
+            return -1;
+        }
+    };
+
+    private void runShield(){
+        System.out.println("Welcome to Nim");
         while(true){
-            String command = "";
-            String params = "";
-            if(input.length() == 1)
-                command = commandAndParams[0];
+            System.out.print("$");
+            String input =inputString();
+            String[] commandAndParams = input.split(",");
+            if(commandAndParams.length == 1)
+                runCommandWithoutParam(commandAndParams[0]);
 
-            if(input.length() == 2){
-                command = commandAndParams[0];
-                params = commandAndParams[1];
-            }
-            runCommand(command, params);
+            if(commandAndParams.length == 2)
+                runCommandWithParam(commandAndParams[0], commandAndParams[1]);
+
+            if(commandAndParams.length > 2)
+                System.out.println("Invalid input");
+
+            System.out.println();
         }
     }
 
-    private void runCommand(String command, String params){
-        if(command.compareTo("startGame") == 0)
+    /**
+     *
+     * @param command
+     * @param params
+     */
+    private void runCommandWithParam(String command, String params){
+
+        if(command.compareTo("startgame") == 0)
             startGameCommand(params);
 
-        if(command.compareTo("addPlayer") == 0)
-            addUser(params);
+        if(command.compareTo("addplayer") == 0)
+            addPlayer(params);
 
-        if(command.compareTo("editPlayer") == 0)
+        if(command.compareTo("displayplayer") == 0)
+            displayPlayer(params);
+
+        if(command.compareTo("editplayer") == 0)
             editPlayer(params);
 
         if(command.compareTo("resetstats") == 0)
             resetstats(params);
 
+        if(command.compareTo("ranking") == 0)
+            rank(params);
+    }
+
+    private void runCommandWithoutParam(String command){
+        if(command.compareTo("removeplayer") == 0)
+            removePlayer();
+
+        if(command.compareTo("displayplayer") == 0)
+            displayPlayer();
+
+        if(command.compareTo("resetstats") == 0)
+            resetstats();
+
+        if(command.compareTo("rankings") == 0)
+            rank();
+
+        if(command.compareTo("exit") == 0)
+            System.exit(0);
     }
 
 
-    public void addUser(String params){
-//         TODO: 12/4/18
+    /**
+     * add one player
+     * @param params
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean addPlayer(String params){
+        String[] names = params.split(",");
+        //divide the params into a array with size 3. 0: username 1:lastName 2:firstName
+        if( names.length != 3){
+            System.out.println("Invaild input, please input as the format: username,family_name,given_name");
+            return false;
+        }
+
+        if(userExist(names[0])){
+            System.out.println("The player already exist.");
+            return false;
+        }
+
+        NimPlayer newplayer = new NimPlayer(names[0],names[1], names[2]);
+        this.players.add(newplayer);
+
+        return true;
     }
 
-    public void editPlayer(String params){
-        //todo
+
+    /**
+     * remove one player
+     * @param username
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean removePlayer(String username){
+        NimPlayer nimPlayer = this.findPlayerByUserName(username);
+        if(nimPlayer == null) {
+            System.out.println("The player not exist");
+            return false;
+        }
+
+        players.remove(nimPlayer);
+        return true;
     }
 
-    public void resetstats(String params){
-        //todo
+
+    /**
+     * remove all players
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean removePlayer(){
+        System.out.println("Are you sure you want to remove all players?(y/n)");
+        boolean choice = this.chooseYN();
+        if(choice){
+            this.players = new ArrayList<>();
+            return true;
+        }
+        return false;
     }
+
+
+    /**
+     * display one player
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean displayPlayer(String username){
+        NimPlayer nimPlayer = findPlayerByUserName(username);
+        if(nimPlayer == null){
+            System.out.println("The player does not exist");
+            return false;
+        }
+        System.out.println(nimPlayer.toString());
+        return true;
+    }
+
+
+    /**
+     * display all players
+     */
+    public void displayPlayer(){
+        players.forEach(NimPlayer::toString);
+    }
+
+
+    /**
+     * edit one player
+     * @param params
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean editPlayer(String params){
+        String[] names = params.split(",");
+        if( names.length != 3){
+            System.out.println("Invaild input, please input as the format: username,family_name,given_name");
+            return false;
+        }
+
+        NimPlayer nimPlayer = findPlayerByUserName(names[0]);
+        if( nimPlayer != null){
+            System.out.println("The player does not exist.");
+            return false;
+        }
+
+        nimPlayer.setFirstName(names[1]);
+        nimPlayer.setLastName(names[2]);
+        return true;
+    }
+
+
+
+    /**
+     * reset the statics of one player
+     * @param params the username
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean resetstats(String params){
+        NimPlayer nimPlayer = findPlayerByUserName(params);
+        if( nimPlayer == null){
+            System.out.println("The player not exist");
+            return false;
+        }
+        nimPlayer.setWinGames(ZERO)
+                 .setNumberOfGames(ZERO);
+        return true;
+    }
+
+    /**
+     * reset the statics of all player
+     * @return one boolean value indicate whether this operation is success
+     */
+    public boolean resetstats(){
+        System.out.println("Are you sure you want to reset all player statistics? (y/n)");
+        boolean choice = chooseYN();
+        if(!choice)
+            return false;
+        players.forEach(nimPlayer -> {
+            nimPlayer.setNumberOfGames(ZERO);
+            nimPlayer.setWinGames(ZERO);
+        });
+        return true;
+    }
+
+    public void rank(){
+        rank("desc");
+    }
+
+    public boolean rank(String params){
+        players.sort(comparator);
+
+        if(  params.compareToIgnoreCase("asc") != 0
+              && params.compareToIgnoreCase("desc") != 0){
+            System.out.println("Invalid input, please input asc or desc");
+            return false;
+        }
+
+        if(params.compareToIgnoreCase("asc") == 0)
+            outputASC();
+        if(params.compareToIgnoreCase("desc") == 0)
+            outputDESC();
+
+        return true;
+    }
+
+    private void outputASC(){
+        for(int i = 0; i<players.size(); i++)
+            System.out.println(players.get(i).toRankString());
+    }
+
+    private void outputDESC(){
+        for(int i = players.size()-1; i>=0; i--)
+            System.out.println(players.get(i).toRankString());
+    }
+
 
 
     /**
@@ -64,36 +274,58 @@ public class Nimsys {
      * do some pre-process to the param
      * @param param
      */
-    public void startGameCommand(String param) {
-        String[] params = param.split(",");
+    public boolean startGameCommand(String param) {
+        String[] numberAndUsername = param.split(",");
         int[] numbers = new int[2];
         boolean startGame = true;
 
-        if(params.length == 4) {
-            //test did the first two parameter is integer
-            for (int i = 0; i < 2; i++) {
-                try {
-                    numbers[i] = Integer.parseInt(params[0]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Not a valid integer");
-                    startGame = true;
-                }
-            }
-
-            NimPlayer[] players = new NimPlayer[2];
-            //test did the player exist
-            for (int j = 2; j < 4; j++) {
-                players[j - 2] = findPlayerByUserName(params[j]);
-                if (!Optional.ofNullable(players[j - 2]).isPresent()) {
-                    System.out.println("One of the players does not exist.");
-                    startGame = true;
-                }
-            }
-
-            if (startGame)
-                startGame(numbers[0], numbers[1], players);
+        if(numberAndUsername.length != 4) {
+            System.out.println("invalid input, please input as the format: " +
+                    "initial_stone_count, max_stone_removal," +
+                    "player1_username, player2_username");
+            return false;
         }
+
+        //test did the first two parameter is integer
+        for (int i = 0; i < 2; i++) {
+            try {
+                numbers[i] = Integer.parseInt(numberAndUsername[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid integer");
+                return false;
+            }
+        }
+
+        NimPlayer[] players = new NimPlayer[2];
+        //test did the player exist
+        for (int j = 2; j < 4; j++) {
+            players[j - 2] = findPlayerByUserName(numberAndUsername[j]);
+            if (players[j - 2] != null) {
+                System.out.println("One of the players does not exist.");
+                return false;
+            }
+        }
+
+        startGame(numbers[0], numbers[1], players);
+        return true;
     }
+
+    /**
+     * run the game
+     * @param numberOfStone
+     * @param upBound
+     * @param players
+     */
+    public void startGame(int numberOfStone, int upBound, NimPlayer[] players){
+        NimGame nimGame = new NimGame(numberOfStone, upBound, players);
+        nimGame.startGame();
+    }
+
+
+    private boolean userExist(String userName){
+        return findPlayerByUserName(userName) == null;
+    }
+
 
     /**
      * find the user by their username
@@ -106,17 +338,6 @@ public class Nimsys {
                 return players.get(i);
         }
         return null;
-    }
-
-    /**
-     * run the game
-     * @param numberOfStone
-     * @param upBound
-     * @param players
-     */
-    public void startGame(int numberOfStone, int upBound, NimPlayer[] players){
-        NimGame nimGame = new NimGame(numberOfStone, upBound, players);
-        nimGame.startGame();
     }
 
     /**
@@ -180,6 +401,13 @@ public class Nimsys {
             System.out.print("Not a valid input, please input one of Y/N");
         }
     }
+
+    public static void main(String[] args){
+        Nimsys nimsys = new Nimsys();
+        nimsys.runShield();
+    }
+
+
 
 }
 
