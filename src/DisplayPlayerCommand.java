@@ -27,7 +27,7 @@ public class DisplayPlayerCommand implements NimCommand {
      */
     @Override
     public void execute(PlayerList playerList) {
-        NimPlayer[] players = playerList.getPlayersArray();
+        NimPlayer[] players = playerList.sortByUserName();
         for (NimPlayer nimPlayer: players)
             System.out.println(nimPlayer.toString());
     }

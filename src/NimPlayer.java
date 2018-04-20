@@ -114,32 +114,43 @@ public class NimPlayer{
 
 
     /**
-     * Compare with the other player
+     * Compare with the other player by win rate
      * @param player
      * @return
      *    1 if this player has higher mark,
      *    0 if two player has same mark,
      *    -1 if the other player has higher mark
      */
-    public int compare(NimPlayer player) {
+    public int compareByWinrate(NimPlayer player) {
         BigDecimal theOtherWinRate = player.getNumberOfGames().compareTo(Nimsys.ZERO) == 0 ?
-                Nimsys.ZERO : player.getWinGames().divide(player.getNumberOfGames(),2,BigDecimal.ROUND_HALF_UP);
+                Nimsys.ZERO : player.getWinGames().divide(player.getNumberOfGames(),4,BigDecimal.ROUND_HALF_UP);
         BigDecimal mineWinRate = this.getNumberOfGames().compareTo(Nimsys.ZERO) == 0 ?
-                Nimsys.ZERO : this.getWinGames().divide(this.getNumberOfGames(),2,BigDecimal.ROUND_HALF_UP);
-        String theOtherFullName = player.getFirstName() + player.getLastName();
-        String mineFullName = this.getFirstName() + this.getLastName();
+                Nimsys.ZERO : this.getWinGames().divide(this.getNumberOfGames(),4,BigDecimal.ROUND_HALF_UP);
 
         if (mineWinRate.compareTo(theOtherWinRate) > 0) {
             return 1;
         } else if (mineWinRate.compareTo(theOtherWinRate)==0) {
-            if (mineFullName.compareTo(theOtherFullName) > 0)
-                return 1;
-            else if(mineFullName.compareTo(theOtherFullName) == 0)
-                return 0;
-            else
-                return -1;
+            return 0;
         } else {
             return -1;
         }
+    }
+
+    /**
+     * Compare with the other player by their username
+     * @param player
+     * @return
+     *    1 if this player has higher mark,
+     *    0 if two player has same mark,
+     *    -1 if the other player has higher mark
+     */
+    public int compareByUserName(NimPlayer player) {
+        int compareResult = userName.compareTo(player.userName);
+        if(compareResult > 0)
+            return 1;
+        else if(compareResult == 0)
+            return 0;
+        else
+            return -1;
     }
 }

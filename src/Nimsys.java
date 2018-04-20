@@ -38,7 +38,7 @@ public class Nimsys {
      * run the shield of NimSys
      */
     private void runShield(){
-        System.out.println("Welcome to Nim");
+        System.out.println("Welcome to Nim\n");
         while(true){
             System.out.print("$");
             String input =inputString();
@@ -115,9 +115,6 @@ public class Nimsys {
 
     public static void main(String[] args){
         Nimsys nimsys = new Nimsys();
-        NimPlayer player = new NimPlayer("weikai","kai","zeng");
-
-        player.addOneGame();
         nimsys.runShield();
     }
 

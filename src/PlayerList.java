@@ -57,19 +57,46 @@ public class PlayerList {
     }
 
     /**
-     * sort the player according to the direction inputted
+     * sort all players by the winrate
      * @param dirc indicate the direction of sequence, 1 stand for asc, -1 stand for desc
      * @return the sorted players
      */
-    public NimPlayer[] sort(int dirc){
+    public NimPlayer[] sortForRank(int dirc){
         NimPlayer[] sortedPlayers = new NimPlayer[numberOfPlayers];
         System.arraycopy(players, 0 ,sortedPlayers, 0, numberOfPlayers);
         for(int i = 1; i < numberOfPlayers; i++){
             NimPlayer temp = sortedPlayers[i];
             int j = i - 1;
-            while( j >=0 && temp.compare(sortedPlayers[j]) == dirc){
-               sortedPlayers[j+1] = sortedPlayers[j];
-               j--;
+            while( j >=0 ){
+                int compareResult = temp.compareByWinrate(sortedPlayers[j]);
+                if(compareResult == dirc || (compareResult==0 && temp.compareByUserName(sortedPlayers[j])>0 )){
+                    //  when the temp has higher/lower mark
+                    //  || they have same mark but the username of temp is bigger in alphabetical order
+                    sortedPlayers[j + 1] = sortedPlayers[j];
+                    j--;
+                } else {
+                    j = -1;
+                }
+            }
+            sortedPlayers[j+1] = temp;
+        }
+        return sortedPlayers;
+    }
+
+
+    /**
+     * sort all players by the username
+     * @return the sorted players
+     */
+    public NimPlayer[] sortByUserName(){
+        NimPlayer[] sortedPlayers = new NimPlayer[numberOfPlayers];
+        System.arraycopy(players, 0 ,sortedPlayers, 0, numberOfPlayers);
+        for(int i = 1; i < numberOfPlayers; i++){
+            NimPlayer temp = sortedPlayers[i];
+            int j = i - 1;
+            while( j >=0 && temp.compareByUserName(sortedPlayers[j]) < 0){
+                sortedPlayers[j + 1] = sortedPlayers[j];
+                j--;
             }
             sortedPlayers[j+1] = temp;
         }
@@ -82,7 +109,7 @@ public class PlayerList {
      * @return
      */
     private boolean userExist(String userName){
-        return getTheIndexOfPlayer(userName) == -1;
+        return getTheIndexOfPlayer(userName) == 1;
     }
 
     /**
