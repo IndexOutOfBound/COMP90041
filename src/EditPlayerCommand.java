@@ -1,14 +1,27 @@
+
+/**
+ * @Author: weikai.zeng
+ * this class used for edit player
+ */
+
+
+
 public class EditPlayerCommand implements NimCommand{
 
+    /**
+     * edit the player
+     * @param playerList
+     * @param params
+     */
     @Override
-    public void excute(PlayerList playerList, String params) {
+    public void execute(PlayerList playerList, String params) {
         String[] names = params.split(",");
         if( names.length != 3){
             printHelp();
         } else {
 
             NimPlayer nimPlayer = playerList.getPlayerByUsername(names[0]);
-            if (nimPlayer != null) {
+            if (nimPlayer == null) {
                 System.out.println("The player does not exist.");
             } else{
                 nimPlayer.setFirstName(names[1]);
@@ -17,11 +30,18 @@ public class EditPlayerCommand implements NimCommand{
         }
     }
 
+    /**
+     * when user input without parameters, print the help information
+     * @param playerList
+     */
     @Override
-    public void excute(PlayerList playerList) {
+    public void execute(PlayerList playerList) {
         printHelp();
     }
 
+    /**
+     * print the help information
+     */
     private void printHelp(){
         System.out.println("Invaild input, please input as the format: username,family_name,given_name");
     }
