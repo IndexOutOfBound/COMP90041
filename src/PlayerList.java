@@ -44,6 +44,14 @@ public class PlayerList {
             return true;
     }
 
+    public NimPlayer getPlayerByUsername(String userName) {
+        int index = getTheIndexOfPlayer(userName);
+        if(index == -1)
+            return null;
+
+        return players[index];
+    }
+
     /**
      *
      * @param userName the user name of player
