@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f99e1470-5711-4ce0-a645-9d6884a638f2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/AddPlayerCommand.java" afterPath="$PROJECT_DIR$/src/AddPlayerCommand.java" />
-      <change beforePath="$PROJECT_DIR$/src/DisplayPlayerCommand.java" afterPath="$PROJECT_DIR$/src/DisplayPlayerCommand.java" />
-      <change beforePath="$PROJECT_DIR$/src/EditPlayerCommand.java" afterPath="$PROJECT_DIR$/src/EditPlayerCommand.java" />
-      <change beforePath="$PROJECT_DIR$/src/NimGame.java" afterPath="$PROJECT_DIR$/src/NimGame.java" />
-      <change beforePath="$PROJECT_DIR$/src/NimPlayer.java" afterPath="$PROJECT_DIR$/src/NimPlayer.java" />
-      <change beforePath="$PROJECT_DIR$/src/RemovePlayerCommand.java" afterPath="$PROJECT_DIR$/src/RemovePlayerCommand.java" />
-      <change beforePath="$PROJECT_DIR$/src/StartGameCommand.java" afterPath="$PROJECT_DIR$/src/StartGameCommand.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -380,7 +373,7 @@
       <workItem from="1524128405789" duration="2485000" />
       <workItem from="1524218950525" duration="23376000" />
       <workItem from="1524280717222" duration="2197000" />
-      <workItem from="1524287154474" duration="1759000" />
+      <workItem from="1524287154474" duration="1859000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1521029626301</created>
@@ -473,11 +466,18 @@
       <option name="project" value="LOCAL" />
       <updated>1524290161085</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Merge branch 'master' of https://github.com/IndexOutOfBound/COMP90041&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1524290387332</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1524290387332</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75093000" />
+    <option name="totallyTimeSpent" value="75193000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
