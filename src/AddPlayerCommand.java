@@ -21,7 +21,7 @@ public class AddPlayerCommand implements NimCommand{
         if( names.length != 3){
             printHelp();
         } else if(playerList.getPlayerByUsername(names[0]) != null){
-            System.out.println("The player already exist.");
+            System.out.println("The player already exists.");
         } else {
             NimPlayer newplayer = new NimPlayer(names[0],names[1], names[2]);
             playerList.addPlayer(newplayer);

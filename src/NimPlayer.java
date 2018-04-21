@@ -95,7 +95,7 @@ public class NimPlayer{
     public void removeStone(NimGame nimGame){
         Integer upbound = nimGame.getUpBound();
         Integer numOfStone = nimGame.getNumberOfStone();
-        System.out.println(lastName+"'s turn - remove how many?");
+        System.out.println(firstName+"'s turn - remove how many?");
         Integer removedStone = Nimsys.inputIntegerRange(1, upbound < numOfStone ? upbound:numOfStone);
         //if the upbound is less than the numOfStone
         //      set the upbound as upper bound of input

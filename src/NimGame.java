@@ -73,7 +73,7 @@ public class NimGame {
      */
     public void over(){
         NimPlayer winner = players[findNextPlayer()];
-        System.out.println( "\nGame Over\n" + winner.getLastName() + " " + winner.getFirstName()+" wins!");
+        System.out.println( "\nGame Over\n" + winner.getFirstName() + " " + winner.getLastName()+" wins!");
         winner.addOneWin();
         for(NimPlayer player: players)
             player.addOneGame();
@@ -95,8 +95,7 @@ public class NimGame {
     /**
      * run the game
      */
-    public void startGame(){
-        boolean playAgain = true;
+    public void runGame(){
         while(!this.isGameOver())
                 this.removeStone();
         this.over();
