@@ -48,7 +48,7 @@ public class StartGameCommand implements NimCommand {
         }
 
         if(startGame) {
-            System.out.println("Initial stone count: "+numbers[0]+
+            System.out.println("\nInitial stone count: "+numbers[0]+
             "\nMaximum stone removal: "+numbers[1]+
             "\nPlayer 1: "+players[0].getUserName()+
             "\nPlayer 2: "+players[1].getUserName());
