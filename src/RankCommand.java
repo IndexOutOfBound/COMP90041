@@ -22,7 +22,7 @@ public class RankCommand implements NimCommand {
             dirc = -1;
 
         if(dirc != 0) {// the input is correct
-            NimPlayer[] sortedPlayer = playerList.sortForRank(dirc);
+            NimPlayer[] sortedPlayer = playerList.sortByWinRate(dirc);
 
             for (NimPlayer player : sortedPlayer) {
                  System.out.println(player.toRankString());

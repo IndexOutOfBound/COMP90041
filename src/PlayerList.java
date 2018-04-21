@@ -61,22 +61,17 @@ public class PlayerList {
      * @param dirc indicate the direction of sequence, 1 stand for asc, -1 stand for desc
      * @return the sorted players
      */
-    public NimPlayer[] sortForRank(int dirc){
+    public NimPlayer[] sortByWinRate(int dirc){
         NimPlayer[] sortedPlayers = new NimPlayer[numberOfPlayers];
         System.arraycopy(players, 0 ,sortedPlayers, 0, numberOfPlayers);
         for(int i = 1; i < numberOfPlayers; i++){
             NimPlayer temp = sortedPlayers[i];
             int j = i - 1;
-            while( j >=0 ){
-                int compareResult = temp.compareByWinrate(sortedPlayers[j]);
-                if(compareResult == dirc || (compareResult==0 && temp.compareByUserName(sortedPlayers[j])>0 )){
-                    //  when the temp has higher/lower mark
-                    //  || they have same mark but the username of temp is bigger in alphabetical order
+            while( j >=0 &&
+                    ( temp.compareByWinrate(sortedPlayers[j]) == dirc
+                       || (temp.compareByWinrate(sortedPlayers[j]) == 0 && temp.compareByUserName(sortedPlayers[j]) < 0))){
                     sortedPlayers[j + 1] = sortedPlayers[j];
                     j--;
-                } else {
-                    j = -1;
-                }
             }
             sortedPlayers[j+1] = temp;
         }

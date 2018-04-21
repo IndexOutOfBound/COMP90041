@@ -84,7 +84,7 @@ public class NimPlayer{
     public String toRankString(){
         BigDecimal winRate = numberOfGames.compareTo(BigDecimal.ZERO) == 0 ?
                 BigDecimal.ZERO: winGames.divide(this.numberOfGames,2,BigDecimal.ROUND_HALF_UP);
-        return String.format("%-5s| %02d games | %s %s", winRate+"%",
+        return String.format("%-5s| %02d games | %s %s", winRate.multiply(new BigDecimal("100")).setScale(0)+"%",
                 this.numberOfGames.toBigInteger(), this.firstName, this.lastName);
     }
 

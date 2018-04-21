@@ -24,7 +24,7 @@ public class Nimsys {
 
     static{
         commands.put("startgame", new StartGameCommand());
-        commands.put("ranking", new RankCommand());
+        commands.put("rankings", new RankCommand());
         commands.put("addplayer",new AddPlayerCommand());
         commands.put("displayplayer",new DisplayPlayerCommand());
         commands.put("editplayer", new EditPlayerCommand());
@@ -115,6 +115,28 @@ public class Nimsys {
 
     public static void main(String[] args){
         Nimsys nimsys = new Nimsys();
+
+        NimPlayer nimPlayer = new NimPlayer("weikai","kai","zeng");
+        NimPlayer nimPlayer1 = new NimPlayer("zhewei","weo","zhou");
+        NimPlayer nimPlayer2 = new NimPlayer("shige","yizhi","shi");
+        NimPlayer nimPlayer3 = new NimPlayer("luqian","lu","qian");
+
+        nimPlayer.addOneGame();
+        nimPlayer.addOneWin();
+        nimPlayer.addOneGame();
+        nimPlayer.addOneWin();
+        nimPlayer2.addOneGame();
+        nimPlayer2.addOneGame();
+        nimPlayer2.addOneWin();
+        nimPlayer3.addOneGame();
+        nimPlayer3.addOneWin();
+        nimPlayer3.addOneGame();
+        nimPlayer3.addOneWin();
+        nimsys.players.addPlayer(nimPlayer);
+        nimsys.players.addPlayer(nimPlayer1);
+        nimsys.players.addPlayer(nimPlayer2);
+        nimsys.players.addPlayer(nimPlayer3);
+
         nimsys.runShield();
     }
 
