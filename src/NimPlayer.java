@@ -1,9 +1,10 @@
 
-// A class for NimPlayer
-// @Author weikai Zeng
+/**
+ * Author: weikai.zeng
+ * this class represent the NimPlayer
+ */
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 
 public class NimPlayer{
 
@@ -32,10 +33,6 @@ public class NimPlayer{
 
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -73,17 +70,28 @@ public class NimPlayer{
         return this;
     }
 
+    /**
+     * @return the string form of NimPlayer
+     */
     public String toString(){
         return this.userName+","+this.firstName+","+this.lastName+
-                ","+this.numberOfGames+" games "+this.winGames+" wins";
+                ","+this.numberOfGames+" games,"+this.winGames+" wins";
     }
 
+    /**
+     * @return the string form of NimPlayer with the ranking information
+     */
     public String toRankString(){
-        BigDecimal winRate = this.winGames.divide(this.numberOfGames).setScale(2);
-        return String.format("%-5s| %02d games | %s %s", winRate,
-                this.numberOfGames, this.firstName, this.lastName);
+        BigDecimal winRate = numberOfGames.compareTo(BigDecimal.ZERO) == 0 ?
+                BigDecimal.ZERO: winGames.divide(this.numberOfGames,2,BigDecimal.ROUND_HALF_UP);
+        return String.format("%-5s| %02d games | %s %s", winRate.multiply(new BigDecimal("100")).setScale(0)+"%",
+                this.numberOfGames.toBigInteger(), this.firstName, this.lastName);
     }
 
+    /**
+     * remove stone from table
+     * @param nimGame the game which the player is attending
+     */
     public void removeStone(NimGame nimGame){
         Integer upbound = nimGame.getUpBound();
         Integer numOfStone = nimGame.getNumberOfStone();
@@ -97,12 +105,52 @@ public class NimPlayer{
     }
 
     public void addOneWin(){
-        this.winGames.add(ONE);
+        winGames = winGames.add(ONE);
     }
 
     public void addOneGame(){
-        this.numberOfGames.add(ONE);
+        numberOfGames = numberOfGames.add(ONE);
     }
 
 
+    /**
+     * Compare with the other player by win rate
+     * @param player
+     * @return
+     *    1 if this player has higher mark,
+     *    0 if two player has same mark,
+     *    -1 if the other player has higher mark
+     */
+    public int compareByWinrate(NimPlayer player) {
+        BigDecimal theOtherWinRate = player.getNumberOfGames().compareTo(Nimsys.ZERO) == 0 ?
+                Nimsys.ZERO : player.getWinGames().divide(player.getNumberOfGames(),4,BigDecimal.ROUND_HALF_UP);
+        BigDecimal mineWinRate = this.getNumberOfGames().compareTo(Nimsys.ZERO) == 0 ?
+                Nimsys.ZERO : this.getWinGames().divide(this.getNumberOfGames(),4,BigDecimal.ROUND_HALF_UP);
+
+        if (mineWinRate.compareTo(theOtherWinRate) > 0) {
+            return 1;
+        } else if (mineWinRate.compareTo(theOtherWinRate)==0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * Compare with the other player by their username
+     * @param player
+     * @return
+     *    1 if this player has higher mark,
+     *    0 if two player has same mark,
+     *    -1 if the other player has higher mark
+     */
+    public int compareByUserName(NimPlayer player) {
+        int compareResult = userName.compareTo(player.userName);
+        if(compareResult > 0)
+            return 1;
+        else if(compareResult == 0)
+            return 0;
+        else
+            return -1;
+    }
 }

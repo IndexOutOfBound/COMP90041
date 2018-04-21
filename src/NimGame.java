@@ -1,10 +1,14 @@
 
+/**
+ * @Author: weikai.zeng
+ * this class represent the NimGame
+ */
 
 public class NimGame {
 
-    private int numberOfStone = 0;
+    private int numberOfStone;
 
-    private int upBound = 0;
+    private int upBound;
 
     private NimPlayer[] players;
 
@@ -71,18 +75,9 @@ public class NimGame {
         NimPlayer winner = players[findNextPlayer()];
         System.out.println( "\nGame Over\n" + winner.getLastName() + " " + winner.getFirstName()+" wins!");
         winner.addOneWin();
-        for(int i = 0; i< players.length; i++)
-            players[i].addOneGame();
+        for(NimPlayer player: players)
+            player.addOneGame();
         indexOfCurrentPlayer = 0;
-    }
-
-    /**
-     * ask player whether they play again
-     * @return their choice
-     */
-    public boolean playAgain(){
-        System.out.print("\nDo you want to play again (Y/N):");
-        return Nimsys.chooseYN();
     }
 
     /**
@@ -102,13 +97,9 @@ public class NimGame {
      */
     public void startGame(){
         boolean playAgain = true;
-        while(playAgain){
-            while(!this.isGameOver())
+        while(!this.isGameOver())
                 this.removeStone();
-
-            this.over();
-            playAgain = this.playAgain();
-        }
+        this.over();
     }
 
 
