@@ -15,7 +15,7 @@ public class RemovePlayerCommand implements NimCommand {
     @Override
     public void execute(PlayerList playerList, String param) {
         if(!playerList.removePlayer(param))
-            System.out.println("The player does not exist");
+            System.out.println("The player does not exist.");
     }
 
     /**

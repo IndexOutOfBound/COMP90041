@@ -50,10 +50,10 @@ public class StartGameCommand implements NimCommand {
         if(startGame) {
             System.out.println("\nInitial stone count: "+numbers[0]+
             "\nMaximum stone removal: "+numbers[1]+
-            "\nPlayer 1: "+players[0].getUserName()+
-            "\nPlayer 2: "+players[1].getUserName());
+            "\nPlayer 1: "+players[0].getFirstName()+" "+players[0].getLastName()+
+            "\nPlayer 2: "+players[1].getFirstName()+" "+players[1].getLastName());
             NimGame nimGame = new NimGame(numbers[0], numbers[1], players);
-            nimGame.startGame();
+            nimGame.runGame();
         }
 
     }

@@ -24,8 +24,8 @@ public class EditPlayerCommand implements NimCommand{
             if (nimPlayer == null) {
                 System.out.println("The player does not exist.");
             } else{
-                nimPlayer.setFirstName(names[1]);
-                nimPlayer.setLastName(names[2]);
+                nimPlayer.setLastName(names[1]);
+                nimPlayer.setFirstName(names[2]);
             }
         }
     }

@@ -17,7 +17,7 @@ public class DisplayPlayerCommand implements NimCommand {
         if( nimPlayer != null)//when the player exist
             System.out.println(nimPlayer.toString());
         else
-            System.out.println("The player does not exist");
+            System.out.println("The player does not exist.");
     }
 
 
