@@ -39,7 +39,7 @@ public class StartGameCommand implements NimCommand {
         NimPlayer[] players = new NimPlayer[2];
         //test did the player exist
         while(i<4 && startGame){
-            players[i - 2] = playerList.getPlayerByUsername(numberAndUsername[i]);
+            players[i - 2] = playerList.getPlayerByUserName(numberAndUsername[i]);
             if (players[i - 2] == null) {
                 System.out.println("One of the players does not exist.");
                 startGame = false;

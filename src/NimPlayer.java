@@ -39,9 +39,8 @@ public class NimPlayer{
         return firstName;
     }
 
-    public NimPlayer setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-        return this;
     }
 
     public String getLastName() {
@@ -60,14 +59,12 @@ public class NimPlayer{
         return winGames;
     }
 
-    public NimPlayer setWinGames(BigDecimal winGames) {
+    public void setWinGames(BigDecimal winGames) {
         this.winGames = winGames;
-        return this;
     }
 
-    public NimPlayer setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
     }
 
     /**

@@ -113,7 +113,7 @@ public class PlayerList {
      * @return the NimPlayer
      * return null if the player not exist
      */
-    public NimPlayer getPlayerByUsername(String userName) {
+    public NimPlayer getPlayerByUserName(String userName) {
         int index = getTheIndexOfPlayer(userName);
         if(index == -1)
             return null;

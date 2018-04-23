@@ -13,7 +13,7 @@ public class DisplayPlayerCommand implements NimCommand {
      */
     @Override
     public void execute(PlayerList playerList, String param) {
-        NimPlayer nimPlayer = playerList.getPlayerByUsername(param);
+        NimPlayer nimPlayer = playerList.getPlayerByUserName(param);
         if( nimPlayer != null)//when the player exist
             System.out.println(nimPlayer.toString());
         else

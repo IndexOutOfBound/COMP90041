@@ -10,7 +10,7 @@
 public class ResetPlayerCommand implements NimCommand {
     @Override
     public void execute(PlayerList playerList, String param) {
-        NimPlayer nimPlayer = playerList.getPlayerByUsername(param);
+        NimPlayer nimPlayer = playerList.getPlayerByUserName(param);
         if(nimPlayer != null){
             nimPlayer.setNumberOfGames(Nimsys.ZERO);
             nimPlayer.setWinGames(Nimsys.ZERO);

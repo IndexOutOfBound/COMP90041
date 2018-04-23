@@ -71,7 +71,7 @@ public class NimGame {
     /**
      * over the game and print the winner
      */
-    public void over(){
+    private void over(){
         NimPlayer winner = players[findNextPlayer()];
         System.out.println( "\nGame Over\n" + winner.getFirstName() + " " + winner.getLastName()+" wins!");
         winner.addOneWin();

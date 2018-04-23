@@ -20,7 +20,7 @@ public class EditPlayerCommand implements NimCommand{
             printHelp();
         } else {
 
-            NimPlayer nimPlayer = playerList.getPlayerByUsername(names[0]);
+            NimPlayer nimPlayer = playerList.getPlayerByUserName(names[0]);
             if (nimPlayer == null) {
                 System.out.println("The player does not exist.");
             } else{
